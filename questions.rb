@@ -1,5 +1,6 @@
+#!/usr/bin/env ruby
 require 'pry'
-ARGV << "--help" if ARGV == ""
+
 
 
 class Fileq
@@ -65,16 +66,26 @@ class Commands
 	end
 
 	def argumentReader
-		if @argument[0] == "show" 
+		if @argument[0].to_s == "" 
 			show
-		elsif @argument[0] == "add"
+		elsif @argument[0] == "add" and @argument[1].to_s != ""
 			add(@argument[1])
-		elsif @argument[0] == "rm"
+		elsif @argument[0] == "rm" and @argument[1].to_i > 0
 			rm(@argument[1])
+		elsif @argument[0] == ("help")
+			help
+		else
+			puts "error: (invalid argument)\nenter 'help' for a list of valid arguments"
 		end
+		
 	end
 
-
+	def help
+		puts "Valid arguments for 'questions'\n------------------------------\n"
+		puts "- add ('question')    => Adds a question with the questions in quotes after it.\n\n"
+		puts "- rm (list number)    => Removes a questions from the list with that number.\n\n"
+		puts "-                     => No argument will print the list."
+	end
 
 
 
@@ -114,16 +125,15 @@ end
 
 
 
+if ARGV.length > 2
+	puts "error: (invalid number of arguments)\nonly a max of two arguments are allowed"
 
-commandArg = Commands.new
-commandArg.initAndExe
+else
+	commandArg = Commands.new
+	commandArg.initAndExe
+end
 
-# questions = Fileq.new
-# questions.initFile
-# questions.getQuestions
-# questions.addQuestion("WHERE IS THE THE LAMB SAUCE!!?!?!?!")
 
-# binding.pry
 
 
 
@@ -132,36 +142,7 @@ commandArg.initAndExe
 #Where is the new keyword when creating a string like ( x= "hi" )
 #If i have a class with @count is @count different for each object in class
 
-
-#List of ARGV commands to implement
-
-#show
-	#.initFile
-	#.getQuestions
-	#.see
-#add ("string")
-	#.initFile
-	#.getQuestions
-	#.addQuestion("string")
-	#.see
-	#.saveFile
-#rm (num)
-	#.initFile
-	#.getQuestions
-	#.removeQuestion("num")
-	#.see
-	#.saveFile
-
-
-
-
-puts "\n\n"
-puts "Input argument #{ARGV}"
-puts "- show            :Displays questions.\n- add (\"string\")  :Adds the string to questions.\n- rm (num)        :Removes the question in that list position." if ARGV[0] == "--help"
-
-
-
-
+puts "\n"
 
 
 
