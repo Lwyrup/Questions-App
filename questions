@@ -18,7 +18,7 @@ class Fileq #Class that deals with file and its modification
 	end
 	
 	def getQuestions #Opens the file line by line and calls on loadFile
-		File.open("questions.txt", "r") do |f|
+		File.open("/Users/spencer/code/questions/questions.txt", "r") do |f|
 				loadFile(f)
 			f.close
 		end	
@@ -39,12 +39,11 @@ class Fileq #Class that deals with file and its modification
 	end
 
 	def saveFile #Empties .txt and fills back up with the question array
-		File.open("questions.txt", "w") do |f|
+		File.open("/Users/spencer/code/questions/questions.txt", "w") do |f|
 			f.puts @questions
 			f.close
 		end
 	end
-
 end
 
 class Commands #Class that gets argument variables, analyzes them, and passes them to fileq class
