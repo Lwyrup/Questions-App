@@ -1,44 +1,58 @@
 #!/usr/bin/env ruby
-require 'pry'
 
-#CLASSES DEFINED HERE
+start = Gateway.new
+start.run
 
-class Fileq #Class that deals with file and its modification
+#Class that deals with file and its modification
+class Fileq
 
-	def initFile #Sets up variable for array of questions, functions kinda like a clipboard?
+	#Sets up variable for array of questions
+	def initFile
 		@questions = []
 		@listNum = 1
 	end
 
-	def see #Displays questions numbering by element number
+	#Displays questions numbering by element number
+	def see 
 		@questions.each do |question|
 			puts "#{@listNum}.#{question}"
 			@listNum += 1
 		end
 	end
 	
-	def getQuestions #Opens the file line by line and calls on loadFile
+	#Opens the file line by line and calls on loadFile
+	def getQuestions
 		File.open("/Users/spencer/code/questions/questions.txt", "r") do |f|
 				loadFile(f)
 			f.close
 		end	
 	end
 
-	def loadFile(part) #Takes current line and saves it as an item in the question array
+	#Takes current line and saves it as an item in the question array
+	#
+	# part - String line of text from .txt
+	def loadFile(part)
 		while line = part.gets
-				@questions.push(line.split("\n").join())
+			@questions.push(line.split("\n").join())
 		end
 	end
 
-	def removeQuestion(listPos)	#Takes a number corresponding to display list number and deletes it
+	#Takes a number corresponding to display list number and deletes it
+	#
+	# listPos - Integer representing list position
+	def removeQuestion(listPos)
 		@questions -= [@questions[listPos.to_i - 1]]
 	end
 	
-	def addQuestion(newQuestion) #Pushes new questions to question array
+	# Pushes new questions to question array
+	#
+	# newQuestion - String to be added
+	def addQuestion(newQuestion)
 		@questions.push(newQuestion)
 	end
 
-	def saveFile #Empties .txt and fills back up with the question array
+	#Empties .txt and fills back up with the question array
+	def saveFile
 		File.open("/Users/spencer/code/questions/questions.txt", "w") do |f|
 			f.puts @questions
 			f.close
@@ -46,22 +60,26 @@ class Fileq #Class that deals with file and its modification
 	end
 end
 
-class Commands #Class that gets argument variables, analyzes them, and passes them to fileq class
+#Class that gets argument variables, analyzes them, and passes them to fileq class
+class Commands
 
-	def initAndExe #Sets up values and calls for the initialization of fileq class
+	#Sets up values and calls for the initialization of fileq class
+	def initAndExe
 		@argument = ARGV
 		@questionList
 		initQuestionClass
 		argumentReader
 	end
 
-	def initQuestionClass #Initializes fileq class and calls fileq to set up questions
+	#Initializes fileq class and calls fileq to set up questions
+	def initQuestionClass
 		@questionList = Fileq.new
 		@questionList.initFile
 		@questionList.getQuestions
 	end
 
-	def argumentReader #Reads the argument variable and decides what to do
+	#Reads the argument variable and decides what to do
+	def argumentReader 
 		if @argument[0].to_s == "" 
 			show
 		elsif @argument[0] == "add" and @argument[1].to_s != ""
@@ -76,37 +94,49 @@ class Commands #Class that gets argument variables, analyzes them, and passes th
 		
 	end
 
-	def help #Prints a help sheet
+	#Prints a help sheet
+	def help 
 		puts "Valid arguments for 'questions'\n------------------------------\n"
 		puts "- add ('question')    => Adds a question with the questions in quotes after it.\n\n"
 		puts "- rm (list number)    => Removes a questions from the list with that number.\n\n"
 		puts "-                     => No argument will print the list."
 	end
 
-	def show #Calls fileq class to display questions
+	#Calls fileq class to display questions
+	def show
 		@questionList.see
 	end
 
-	def add(string) #Passes the question, from argv, to be added to the fileq class
-		@questionList.addQuestion(string)
+	# Passes the question, from argv, to be added to the fileq class
+	#
+	# question - String of new question
+	def add(question)
+		@questionList.addQuestion(question)
 		@questionList.see
 		@questionList.saveFile
 	end
 
-	def rm(position) #Passes the postiton, from argv, to remove from the fileq class
+	#Passes the postiton, from argv, to remove from the fileq class
+	#
+	# position - Integer
+	def rm(position)
 		@questionList.removeQuestion(position)
 		@questionList.see
 		@questionList.saveFile
 	end
 end
 
-class Gateway #Class that decides if argv is sufficient to run rest of code
+#Class that decides if argv is sufficient to run rest of code
+class Gateway
+
+	# Begins the gateway
 	def run
 		puts "\n"
 		checkLegit_ness
 		puts "\n"
 	end
 
+	# Verifies ARGV are legal
 	def checkLegit_ness
 		if ARGV.length > 2
 			puts "error"
@@ -114,14 +144,10 @@ class Gateway #Class that decides if argv is sufficient to run rest of code
 			runCode
 		end
 	end
-		
+	
+	# Runs the rest of the code
 	def runCode
 		commandArg = Commands.new 
 		commandArg.initAndExe
 	end
 end
-
-#CODE EXECUTION HERE
-
-start = Gateway.new
-start.run
