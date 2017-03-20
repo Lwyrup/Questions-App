@@ -4,4 +4,4 @@ Questions-App allows for quick simple note taking while in the command line. Can
 
 ## Screen shots
 
-<img src="screenshots/ss1.png">
+![Viewing all](screenshots/ss1.png "How to access all the questions from the terminal")
