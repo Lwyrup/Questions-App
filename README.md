@@ -4,4 +4,4 @@ Questions-App allows for quick simple note taking while in the command line. Can
 
 ## Screen shots
 
-<img src="images/ss1">
+<img src="screenshots/ss1">
