@@ -1,8 +1,5 @@
 #!/usr/bin/env ruby
 
-start = Gateway.new
-start.run
-
 #Class that deals with file and its modification
 class Fileq
 
@@ -151,3 +148,6 @@ class Gateway
 		commandArg.initAndExe
 	end
 end
+
+start = Gateway.new
+start.run
