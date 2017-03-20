@@ -1,5 +1,0 @@
-What is the difference between Integet and Float?
-How do you split a string in Java?
-What does rbenv rehash actually do?
-Who let the dogs in afterwards?
-Who let the dogs out?
